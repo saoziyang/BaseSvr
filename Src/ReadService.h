@@ -17,10 +17,11 @@ public:
 	CReadService(){}
 	~CReadService(){}
 
-	bool Init(int type=1, int id=0);
+	void Init(int type=1, int id=0);
 	void Run();
 
 	bool AddClient(int fd);
+	bool DelClient(int fd);
 
 	void Process(epoll_event &ev);
 

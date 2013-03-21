@@ -8,7 +8,7 @@
 
 CReadServicePool ReadServicePool;
 
-bool CReadServicePool::Init(int num)
+void CReadServicePool::Init(int num)
 {
 	m_readNum = num;
 	m_readList = new CReadService[num];
@@ -29,4 +29,10 @@ bool CReadServicePool::AddClient(int fd)
 {
 	int idx = fd % m_readNum;
 	return m_readList[idx].AddClient(fd);
+}
+
+bool CReadServicePool::DelClient(int fd)
+{
+	int idx = fd % m_readNum;
+	return m_readList[idx].DelClient(fd);
 }

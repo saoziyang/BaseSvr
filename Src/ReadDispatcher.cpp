@@ -5,10 +5,7 @@
  */
 
 #include "ReadDispatcher.h"
-#include "DataDispatchManager.h"
-#include "PacketDispatchManager.h"
-#include "SendDataStore.h"
-#include "PacketRouter.h"
+#include "CleanService.h"
 
 void CReadDispatcher::Start()
 {
@@ -42,12 +39,14 @@ void CReadDispatcher::__Run()
             int nLen = read(fd, m_recvBuf, READ_BUF_SIZE);
             if (0 == nLen) {
 
+            	CleanService.Clear(fd);
+            	/*
 				PacketRouter.OnClientDisconnected(fd);
 				DataDispatchManager.Delete(fd);
 				PacketDispatchManager.Delete(fd);
 				SendDataStore.Delete(fd);
 				close(fd);
-				
+				*/
 				isOK = false;
                 break;
             } else if (-1 == nLen) {

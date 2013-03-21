@@ -18,6 +18,7 @@ public:
 
 	bool Init(int type = 0, int id = 0);
 	int  AddEvent(int fd, epoll_event *pEv);
+	int  DelEvent(int fd, epoll_event *pEv);
 	void Run(const callback_t &cb);
 	
 	bool IsOpen() {return m_epoll.IsOpen();}

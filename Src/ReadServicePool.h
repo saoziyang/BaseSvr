@@ -17,10 +17,11 @@ public:
 	CReadServicePool(): m_readNum(1){}
 	~CReadServicePool(){}
 
-	bool Init(int num=1);
+	void Init(int num=1);
 	void Run();
 	
 	bool AddClient(int fd);
+	bool DelClient(int fd);
 
 private:
 	CReadService * m_readList;

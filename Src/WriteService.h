@@ -18,11 +18,12 @@ public:
 			m_eps.Close();
 	}
 
-	bool Init(int type=2, int id=0);
+	void Init(int type=2, int id=0);
 	void Run();
 
 	bool AddClient(int fd);
-    bool Send(int fd, const char *pData, int nLen);
+	bool DelClient(int fd);
+    //bool Send(int fd, const char *pData, int nLen);
 
 	void Process(epoll_event &ev);
 

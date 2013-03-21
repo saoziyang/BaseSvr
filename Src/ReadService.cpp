@@ -5,13 +5,10 @@
  */
 
 #include "ReadService.h"
+#include "CleanService.h"
 #include "ReadDispatchManager.h"
-#include "DataDispatchManager.h"
-#include "PacketDispatchManager.h"
-#include "SendDataStore.h"
-#include "PacketRouter.h"
 
-bool CReadService::Init(int type, int id)
+void CReadService::Init(int type, int id)
 {
 	m_eps.Init(type, id);
 	m_id = id;
@@ -28,11 +25,7 @@ void CReadService::Process(epoll_event& ev)
 	if (ev.events & EPOLLIN) {
 		ReadDispatchManager.Put(fd);
 	}else {
-		PacketRouter.OnClientDisconnected(fd);
-		DataDispatchManager.Delete(fd);
-		PacketDispatchManager.Delete(fd);
-		SendDataStore.Delete(fd);
-		close(fd);
+		CleanService.Clear(fd);
 	}
 }
 
@@ -46,6 +39,21 @@ bool CReadService::AddClient(int fd)
 	
 	if (0 != ret) {
 		printf("Error: cannot add event to epoll service.\n");
+		return false;
+	}
+	return true;
+}
+
+bool CReadService::DelClient(int fd)
+{
+	struct epoll_event ev;
+    ev.data.fd = fd;
+    ev.events = EPOLLIN | EPOLLET;
+
+    int ret = m_eps.DelEvent(fd, &ev);
+
+	if (0 != ret) {
+		printf("Error: cannot delete event to epoll service.\n");
 		return false;
 	}
 	return true;

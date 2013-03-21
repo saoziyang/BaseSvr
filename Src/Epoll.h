@@ -23,12 +23,13 @@
 class CEpoll {
 	typedef boost::function<void(epoll_event&)> callback_t;
 public:
-    CEpoll(int n = MAXEVENTS) : m_efd(-1), m_evList(NULL), m_maxEvents(n) {}
+    CEpoll(int n = MAXEVENTS) : m_efd(-1), m_maxEvents(n), m_id(0), m_type(0), m_evList(NULL) {}
     ~CEpoll() {Close();free(m_evList);}
 
 public:
     int  Create(int type = 0, int id = 0);
     int  AddEvent(int fd, epoll_event *pEv);
+    int  DelEvent(int fd, epoll_event *pEv);
 	bool IsOpen();
     void Close();    
      

@@ -18,10 +18,12 @@ public:
 	CWriteServicePool(): m_writeNum(1){}
 	~CWriteServicePool(){}
 
-	bool Init(int num=1);
+	void Init(int num=1);
 	void Run();
 	
 	bool AddClient(int fd);
+	bool DelClient(int fd);
+
 	void Send(int fd, const char *pData, int nLen);
 
 private:

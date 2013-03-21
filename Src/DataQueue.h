@@ -56,7 +56,7 @@ public:
 
 	int FindDelimiter(uint8_t * p, int nSize)
 	{
-		if (nSize < 1 || nSize > m_data.size())
+		if (nSize < 1 || nSize > int(m_data.size()))
 			return -1;
 		int  pos;
 		std::deque<uint8_t>::const_iterator cIt = m_data.begin();

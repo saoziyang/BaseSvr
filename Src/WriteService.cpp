@@ -5,14 +5,10 @@
  */
 
 #include "WriteService.h"
+#include "CleanService.h"
 #include "WriteDispatchManager.h"
-#include "ReadDispatchManager.h"
-#include "DataDispatchManager.h"
-#include "PacketDispatchManager.h"
-#include "SendDataStore.h"
-#include "PacketRouter.h"
 
-bool CWriteService::Init(int type, int id)
+void CWriteService::Init(int type, int id)
 {
 	m_eps.Init(type, id);
 	m_id = id;
@@ -29,11 +25,7 @@ void CWriteService::Process(epoll_event& ev)
 	if (ev.events & EPOLLOUT) {
 		WriteDispatchManager.Put(fd);
 	}else{
-		PacketRouter.OnClientDisconnected(fd);
-		DataDispatchManager.Delete(fd);
-		PacketDispatchManager.Delete(fd);
-		SendDataStore.Delete(fd);
-		close(fd);
+		CleanService.Clear(fd);
 	}
 }
 
@@ -52,8 +44,24 @@ bool CWriteService::AddClient(int fd)
 	return true;
 }
 
+bool CWriteService::DelClient(int fd)
+{
+	struct epoll_event ev;
+    ev.data.fd = fd;
+    ev.events = EPOLLOUT | EPOLLET;
+
+    int ret = m_eps.DelEvent(fd, &ev);
+
+	if (0 != ret) {
+		printf("Error: cannot delete event to write service, eCode=%d.\n", ret);
+		return false;
+	}
+	return true;
+}
+
+/*
 bool CWriteService::Send(int fd, const char* pData, int nLen)
 {
 	int nBytes = write(fd, pData, nLen);
-	printf("sent to socket=%d: %.*s.\n", fd, nLen, pData);
 }
+*/

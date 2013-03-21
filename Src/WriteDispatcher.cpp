@@ -7,6 +7,7 @@
 #include "WriteDispatcher.h"
 #include "SendDataStore.h"
 #include "WriteServicePool.h"
+#include "CleanService.h"
 
 void CWriteDispatcher::Start()
 {
@@ -37,8 +38,9 @@ void CWriteDispatcher::__Run()
         m_evQueue.pop();
 
         int ret = SendDataStore.Send(fd);
-		if (ret == DATA_SEND_RESULT::SEND_ERROR)
-			close(fd);
+		if (ret == DATA_SEND_RESULT::SEND_ERROR) {
+			CleanService.Clear(fd);
+		}
 		if (ret == DATA_SEND_RESULT::SEND_PARTIAL)
 			WriteServicePool.AddClient(fd);	
 

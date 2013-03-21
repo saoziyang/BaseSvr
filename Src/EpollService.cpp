@@ -9,15 +9,19 @@
 bool CEpollService::Init(int type, int id)
 {
 	int ret = m_epoll.Create(type, id);
-	if (0 != ret) {
-		printf("Error: cannot create epoll: %d.\n", ret);
+	if (0 != ret)
 		return false;
-    }
+	return true;
 }
 
 int CEpollService::AddEvent(int fd, epoll_event* pEv)
 {
 	return m_epoll.AddEvent(fd, pEv);
+}
+
+int CEpollService::DelEvent(int fd, epoll_event* pEv)
+{
+	return m_epoll.DelEvent(fd, pEv);
 }
 
 void CEpollService::Run(const callback_t& cb)

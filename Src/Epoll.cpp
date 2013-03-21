@@ -7,7 +7,7 @@
 #include "Epoll.h"
 
 int CEpoll::Create(int type, int id) {
-    if ((m_efd = epoll_create1(0)) < 0)
+    if ((m_efd = epoll_create1(EPOLL_CLOEXEC)) < 0)
         return errno;
 
     fcntl(m_efd, F_SETFD, FD_CLOEXEC);
@@ -39,6 +39,12 @@ int CEpoll::AddEvent(int fd, epoll_event *pEv) {
         if (!epoll_ctl(m_efd, EPOLL_CTL_MOD, fd, pEv))
             return 0;
     }
+    return errno;
+}
+
+int CEpoll::DelEvent(int fd, epoll_event *pEv) {
+    if (!epoll_ctl(m_efd, EPOLL_CTL_DEL, fd, pEv))
+        return 0;
     return errno;
 }
 

@@ -36,17 +36,17 @@ bool CAcceptService::Init(int type, int id, const char *ipStr, int port)
     inet_aton(ipStr, &(svrAddr.sin_addr) );
 	
     if (0 != bind(m_socket, (struct sockaddr *) &svrAddr, sizeof (svrAddr)) ) {
-		printf("Error: cannot bind socket: .\n", errno);
+		printf("Error: cannot bind socket: %d.\n", errno);
 		return false;
 	}
 
 	if (!__SetNonBlocking(m_socket)) {
-		printf("Error: cannot set nonblocking: .\n", errno);
+		printf("Error: cannot set nonblocking: %d.\n", errno);
 		return false;
     }
 
 	if (-1 == listen(m_socket, SOMAXCONN) ) {
-		printf("Error: cannot listen: . \n", errno);
+		printf("Error: cannot listen: %d.\n", errno);
 		return false;
     }
 

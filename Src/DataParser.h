@@ -14,7 +14,7 @@ class CDataParser {
 	typedef boost::thread   thread_t;
 	typedef thread_t *      threadPtr_t;
 public:
-    CDataParser(int i): m_id(i), m_isClose(true), m_pThread(NULL){}
+    CDataParser(int i): m_pThread(NULL), m_id(i), m_isClose(true){}
     ~CDataParser(){}
 
 	void Start();

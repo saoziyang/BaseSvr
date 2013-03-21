@@ -8,7 +8,7 @@
 
 CWriteServicePool WriteServicePool;
 
-bool CWriteServicePool::Init(int num)
+void CWriteServicePool::Init(int num)
 {
 	m_writeNum = num;
 	m_writeThList = new thread_t[num];
@@ -29,6 +29,12 @@ bool CWriteServicePool::AddClient(int fd)
 {
 	uint8_t idx = fd % m_writeNum;
 	return m_writeList[idx].AddClient(fd);
+}
+
+bool CWriteServicePool::DelClient(int fd)
+{
+	uint8_t idx = fd % m_writeNum;
+	return m_writeList[idx].DelClient(fd);
 }
 
 void CWriteServicePool::Send(int fd, const char* pData, int nLen)

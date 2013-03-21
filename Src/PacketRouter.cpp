@@ -18,7 +18,6 @@ void CPacketRouter::OnReceivePacket(int fd, const dataBufferPtr_t& packet)
 {
 	if (m_pRouter)
 		m_pRouter->OnReceivePacket(fd, (const char*)&packet->front(), packet->size());
-	//printf("recv pkt: %.*s.\n", (int)packet->size()-4, (const char*)&packet->front()+4);	
 }
 
 void CPacketRouter::OnClientConnected(int fd, uint32_t ip, uint16_t port)
