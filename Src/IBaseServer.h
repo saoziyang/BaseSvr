@@ -9,6 +9,7 @@
 
 #include "IPacketRouter.h"
 #include "IPacketParserManager.h"
+#include "ILogger.h"
 
 class IBaseServer
 {
@@ -20,6 +21,7 @@ public:
 	virtual void SetListenSocket(const char * ipStr, int port)=0;
 	virtual void SetPacketRouter(IPacketRouter *pRouter)=0;
 	virtual void SetPacketParseManager(IPacketParserManager * pPacketParserManager)=0;
+	virtual void SetBaseLogger(ILogger *pLogger)=0;
 	virtual void Start()=0;
 	virtual void Stop()=0;
 	virtual void Send(int fd, const char *pData, int nLen)=0;

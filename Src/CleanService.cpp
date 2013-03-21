@@ -6,6 +6,7 @@
  */
 
 #include "CleanService.h"
+#include "BaseLogger.h"
 
 CCleanService CleanService;
 

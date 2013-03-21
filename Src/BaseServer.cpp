@@ -35,6 +35,11 @@ void CBaseServer::SetPacketRouter(IPacketRouter* pRouter)
 	PacketRouter.Set(pRouter);
 }
 
+void CBaseServer::SetBaseLogger(ILogger *pLogger)
+{
+	BaseLogger.Set(pLogger);
+}
+
 void CBaseServer::Start()
 {
 	AcceptService.Run();

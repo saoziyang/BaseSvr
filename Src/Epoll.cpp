@@ -5,6 +5,7 @@
  */
 
 #include "Epoll.h"
+#include "BaseLogger.h"
 
 int CEpoll::Create(int type, int id) {
     if ((m_efd = epoll_create1(EPOLL_CLOEXEC)) < 0)
@@ -53,7 +54,7 @@ void CEpoll::Run(const callback_t &cb) {
         int nEvent;
         nEvent = epoll_wait(m_efd, m_evList, m_maxEvents, -1);
         if (-1 == nEvent) {
-            printf("Error: epoll_wait (type=%d, id=%d): %d.\n", m_type, m_id, errno);
+            LOG("Error: epoll_wait (type=%d, id=%d): %d.\n", m_type, m_id, errno);
         }
 
         for (int i = 0; i < nEvent; ++i) {
@@ -63,7 +64,6 @@ void CEpoll::Run(const callback_t &cb) {
                 continue;
             }
             */
-
             cb(m_evList[i]);
         }
 

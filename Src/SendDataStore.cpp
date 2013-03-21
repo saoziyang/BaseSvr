@@ -5,6 +5,7 @@
  */
 
 #include "SendDataStore.h"
+#include "BaseLogger.h"
 
 #define MAX_SEND_UNIT 10
 #define MIN(X, Y) (X < Y) ? X : Y
@@ -64,7 +65,7 @@ int CSendDataStore::Send(int fd)
 		}else{
 			if (errno == EAGAIN || errno == EWOULDBLOCK)
 				return 0;
-			//printf("Send data error=%d, fd=%d.\n", errno, fd);
+			LOG("WARN: send data error=%d, fd=%d.\n", errno, fd);
 			pktMap.erase(it);
 			return DATA_SEND_RESULT::SEND_ERROR;
 		}	

@@ -7,6 +7,7 @@
 #include "ReadService.h"
 #include "CleanService.h"
 #include "ReadDispatchManager.h"
+#include "BaseLogger.h"
 
 void CReadService::Init(int type, int id)
 {
@@ -38,7 +39,7 @@ bool CReadService::AddClient(int fd)
     int ret = m_eps.AddEvent(fd, &ev);
 	
 	if (0 != ret) {
-		printf("Error: cannot add event to epoll service.\n");
+		LOG("Error: cannot add event to epoll service.\n");
 		return false;
 	}
 	return true;
@@ -53,7 +54,7 @@ bool CReadService::DelClient(int fd)
     int ret = m_eps.DelEvent(fd, &ev);
 
 	if (0 != ret) {
-		printf("Error: cannot delete event to epoll service.\n");
+		LOG("Error: cannot delete event to epoll service.\n");
 		return false;
 	}
 	return true;

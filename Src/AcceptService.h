@@ -20,7 +20,7 @@ class CAcceptService
 	typedef boost::thread   thread_t;
 	typedef thread_t *      threadPtr_t;
 public:
-	CAcceptService(): m_socket(-1){}
+	CAcceptService(): m_socket(-1), m_thread(NULL){}
 	~CAcceptService();
 	
 	bool Init(int type, int id, const char *ipStr, int port);

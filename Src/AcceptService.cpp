@@ -8,6 +8,7 @@
 #include "WriteService.h"
 #include "ReadServicePool.h"
 #include "PacketRouter.h"
+#include "BaseLogger.h"
 
 CAcceptService AcceptService;
 
@@ -24,7 +25,7 @@ bool CAcceptService::Init(int type, int id, const char *ipStr, int port)
 	
 	m_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if (-1 == m_socket) {
-		printf("Error: cannot create socket for listen: %d.\n", errno);
+		LOG("Error: cannot create socket for listen: %d.\n", errno);
 		return false;
 	}
 	int toSet = 1;
@@ -36,17 +37,17 @@ bool CAcceptService::Init(int type, int id, const char *ipStr, int port)
     inet_aton(ipStr, &(svrAddr.sin_addr) );
 	
     if (0 != bind(m_socket, (struct sockaddr *) &svrAddr, sizeof (svrAddr)) ) {
-		printf("Error: cannot bind socket: %d.\n", errno);
+		LOG("Error: cannot bind socket: %d.\n", errno);
 		return false;
 	}
 
 	if (!__SetNonBlocking(m_socket)) {
-		printf("Error: cannot set nonblocking: %d.\n", errno);
+		LOG("Error: cannot set nonblocking: %d.\n", errno);
 		return false;
     }
 
 	if (-1 == listen(m_socket, SOMAXCONN) ) {
-		printf("Error: cannot listen: %d.\n", errno);
+		LOG("Error: cannot listen: %d.\n", errno);
 		return false;
     }
 
@@ -56,7 +57,7 @@ bool CAcceptService::Init(int type, int id, const char *ipStr, int port)
 
     int ret = m_eps.AddEvent(m_socket, &ev);
 	if (0 != ret) {
-		printf("Error: cannot add event to epoll service (type=%d, id=%d).\n", type, id);
+		LOG("Error: cannot add event to epoll service (type=%d, id=%d).\n", type, id);
 		return false;
 	}
 	return true;
@@ -82,7 +83,7 @@ void CAcceptService::Process(epoll_event& ev)
 	   	if (-1 == inFd) {
 			if (errno == EAGAIN || errno == EWOULDBLOCK)
 				break;
-		   	printf("Error: accept error: %d.\n", errno);
+		   	LOG("Error: accept error: %d.\n", errno);
 		   	break;
 	   	}
 		

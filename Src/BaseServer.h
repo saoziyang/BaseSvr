@@ -9,6 +9,7 @@
 
 #include "Common.h"
 #include "IBaseServer.h"
+#include "ILogger.h"
 
 #include "AcceptService.h"
 #include "ReadServicePool.h"
@@ -20,6 +21,8 @@
 #include "SendDataStore.h"
 #include "WriteDispatchManager.h"
 
+#include "BaseLogger.h"
+
 class CBaseServer: public IBaseServer
 {
 public:
@@ -30,6 +33,7 @@ public:
 	void SetListenSocket(const char * ipStr, int port);
 	void SetPacketRouter(IPacketRouter *pRouter);
 	void SetPacketParseManager(IPacketParserManager * pPacketParserManager);
+	void SetBaseLogger(ILogger *pLogger);
 	void Start();
 	void Stop();
 	void Send(int fd, const char *pData, int nLen);

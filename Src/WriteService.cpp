@@ -7,6 +7,7 @@
 #include "WriteService.h"
 #include "CleanService.h"
 #include "WriteDispatchManager.h"
+#include "BaseLogger.h"
 
 void CWriteService::Init(int type, int id)
 {
@@ -38,7 +39,7 @@ bool CWriteService::AddClient(int fd)
     int ret = m_eps.AddEvent(fd, &ev);
 	
 	if (0 != ret) {
-		printf("Error: cannot add event to write service, eCode=%d.\n", ret);
+		LOG("Error: cannot add event to write service, eCode=%d.\n", ret);
 		return false;
 	}
 	return true;
@@ -53,7 +54,7 @@ bool CWriteService::DelClient(int fd)
     int ret = m_eps.DelEvent(fd, &ev);
 
 	if (0 != ret) {
-		printf("Error: cannot delete event to write service, eCode=%d.\n", ret);
+		LOG("Error: cannot delete event to write service, eCode=%d.\n", ret);
 		return false;
 	}
 	return true;
