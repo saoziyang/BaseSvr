@@ -29,6 +29,7 @@ int  CPacketParserManager::Parse(const dataQueuePtr_t& pDataQueue, dataBufferPtr
 
 	int pktLen = 0;
 	pDataQueue->CopyTo(&pktLen, 4);	
+	//if (pktLen > MAX_PKT_LEN || pktLen <= 0) {
 	if (pktLen > MAX_PKT_LEN || pktLen <= 0) {
 		return DPR_INVALID;
 	}else if (pktLen + 4 > pDataQueue->GetSize()) {
